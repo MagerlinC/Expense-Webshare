@@ -6,7 +6,7 @@ import {
   getPaymentsForFlat
 } from "./DBService";
 
-import UserIcon from "./assets/user.svg";
+import ResidentStats from "./ResidentStats";
 
 const App = () => {
   document.title = "WSA - WebShare";
@@ -34,7 +34,9 @@ const App = () => {
         setPayments(payments);
       });
     }
-    setLoading(false);
+    if (loading) {
+      setLoading(false);
+    }
   });
 
   const totalExpenses = expenses.reduce(
@@ -42,34 +44,24 @@ const App = () => {
     0
   );
 
-  const totalPayments = payments.reduce(
-    (acc, payment) => payment.amount + acc,
-    0
-  );
-
-  const getTotalPaymentForPerson = personId => {
-    return payments
-      .filter(payment => payment.payer === personId)
-      .reduce((acc, payment) => acc + payment.amount, 0);
+  const getExpensesMadeByPerson = personId => {
+    const personExpenses = expenses.filter(
+      expense => expense.payer === personId
+    );
+    return personExpenses;
   };
 
-  const getTotalExpensesForPerson = personId => {
-    return expenses
-      .filter(expense => expense.payees.find(pId => personId === pId))
-      .reduce(
-        (acc, expense) => acc + expense.amount / (expense.payees.length + 1),
-        0
-      );
+  const getPaymentsForPerson = personId => {
+    return payments.filter(payment => payment.payer === personId);
   };
 
-  const getNetForPerson = personId => {
-    // Total of all payments made by person
-    const totalPersonPayments = getTotalPaymentForPerson(personId);
-    // Total of all expenses that include the person in the list of payees
-    const totalPersonExpenses = getTotalExpensesForPerson(personId);
-
-    return totalPersonExpenses - totalPersonPayments;
+  const getExpensesForPerson = personId => {
+    return expenses.filter(expense =>
+      expense.payees.find(pId => personId === pId)
+    );
   };
+
+  const loader = <div className={"loader"}>Loading...</div>;
 
   return (
     <div className="App">
@@ -82,32 +74,18 @@ const App = () => {
           <span className={"total-expense"}>{totalExpenses + " NZD"}</span>
         </div>
         <div className={"users-section"}>
-          {residents ? (
-            residents.map(resident => {
-              const residentNet = getNetForPerson(resident.id);
-              const owesMoney = residentNet > 0;
-              return (
-                <div className={"user-wrapper"}>
-                  <img src={UserIcon} className={"user-icon"} />
-                  <div className={"user-name"}>{resident.name}</div>
-                  <div className={"user-expense-total"}>
-                    Share of Expenses: {getTotalExpensesForPerson(resident.id)}
-                  </div>
-                  <div className={"user-payment-total"}>
-                    Paid: {getTotalPaymentForPerson(resident.id)}
-                  </div>
-                  <div className={"user-net"}>
-                    Outstanding:{" "}
-                    <span
-                      className={"user-net-text" + (owesMoney ? " red" : "")}
-                    >
-                      {(owesMoney ? "-" : residentNet === 0 ? "" : "+") +
-                        getNetForPerson(resident.id)}
-                    </span>
-                  </div>
-                </div>
-              );
-            })
+          {loading ? (
+            loader
+          ) : residents ? (
+            residents.map(resident => (
+              <ResidentStats
+                key={resident.id}
+                resident={resident}
+                expensesMade={getExpensesMadeByPerson(resident.id)}
+                expenses={getExpensesForPerson(resident.id)}
+                payments={getPaymentsForPerson(resident.id)}
+              />
+            ))
           ) : (
             <div className={"no-users-wrapper"}>
               {"No residents found for flat " + flatId + "."}

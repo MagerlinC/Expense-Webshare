@@ -21,24 +21,33 @@
     .user-wrapper {
       margin: 18px;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       flex-grow: 1;
-      .user-icon {
-        justify-self: center;
-        align-self: center;
-        width: 42px;
-        height: 42px;
+      .user-icon-and-name {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        .user-icon {
+          justify-self: center;
+          align-self: center;
+          width: 42px;
+          height: 42px;
+        }
+        .user-name {
+          margin-top: 18px;
+          font-size: 18px;
+          font-weight: 500;
+        }
       }
-      .user-name {
-        margin-top: 18px;
-        font-size: 18px;
-        font-weight: 500;
-      }
-      .user-net {
-        .user-net-text {
-          color: green;
-          &.red {
-            color: red;
+      .user-stats {
+        flex-grow: 0;
+        text-align: left;
+        .user-net {
+          .user-net-text {
+            color: green;
+            &.red {
+              color: red;
+            }
           }
         }
       }
