@@ -6,6 +6,7 @@ const ResidentStats = ({ resident, expensesMade, expenses, payments }) => {
     (acc, expense) => acc + expense.amount,
     0
   );
+  // TODO: You are not counted as a payee in the expenses you made yourself
   const expensesTotal = expenses.reduce(
     (acc, expense) => acc + expense.amount / (expense.payees.length + 1),
     0
@@ -14,7 +15,7 @@ const ResidentStats = ({ resident, expensesMade, expenses, payments }) => {
     (acc, payment) => acc + payment.amount,
     0
   );
-  const residentNet = expensesTotal - paymentsTotal;
+  const residentNet = expensesTotal - (expensesMadeTotal + paymentsTotal);
   const owesMoney = residentNet > 0;
 
   return (
@@ -42,7 +43,9 @@ const ResidentStats = ({ resident, expensesMade, expenses, payments }) => {
       <div className={"user-net"}>
         Outstanding
         <span className={"user-net-text" + (owesMoney ? " red" : "")}>
-          {(owesMoney ? "-" : residentNet === 0 ? "" : "+") + residentNet}
+          {residentNet === 0
+            ? "0"
+            : (owesMoney ? "-" : "+") + Math.abs(residentNet)}
         </span>
       </div>
     </div>
