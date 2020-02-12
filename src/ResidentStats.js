@@ -7,7 +7,7 @@ const ResidentStats = ({ resident, expensesMade, expenses, payments }) => {
     0
   );
   const expensesTotal = expenses.reduce(
-    (acc, expense) => acc + expense.amount,
+    (acc, expense) => acc + expense.amount / (expense.payees.length + 1),
     0
   );
   const paymentsTotal = payments.reduce(
@@ -19,26 +19,31 @@ const ResidentStats = ({ resident, expensesMade, expenses, payments }) => {
 
   return (
     <div className={"user-wrapper"}>
-      <div className={"user-icon-and-name"}>
-        <img src={UserIcon} className={"user-icon"} />
-        <div className={"user-name"}>{resident.name}</div>
+      <div className={"user-contents-wrapper"}>
+        <div className={"user-icon-and-name"}>
+          <img alt={"user-icon"} src={UserIcon} className={"user-icon"} />
+          <div className={"user-name"}>{resident.name}</div>
+        </div>
+        <div className={"user-stats"}>
+          <div className={"user-stat-line"}>
+            <div className={"user-stat-text"}>Expenses Paid for</div>
+            <div className={"right-number"}>{expensesMadeTotal}</div>
+          </div>
+          <div className={"user-stat-line"}>
+            <div className={"user-stat-text"}>Share of Total Expenses</div>
+            <div className={"right-number"}>{expensesTotal}</div>
+          </div>
+          <div className={"user-stat-line"}>
+            <div className={"user-stat-text"}>Paid</div>
+            <div className={"right-number"}>{paymentsTotal}</div>
+          </div>
+        </div>
       </div>
-      <div className={"user-stats"}>
-        <div className={"user-stat-text"}>
-          Expenses Paid for:
-          <span className={"right-number"}>{expensesMadeTotal}</span>
-        </div>
-        <div className={"user-stat"}>
-          <div className={"user-stat-text"}>Share of Total Expenses:</div>
-          <div className={"right-number"}>{expensesTotal}</div>
-        </div>
-        <div className={"user-payment-total"}>Paid: {paymentsTotal}</div>
-        <div className={"user-net"}>
-          Outstanding:{" "}
-          <span className={"user-net-text" + (owesMoney ? " red" : "")}>
-            {(owesMoney ? "-" : residentNet === 0 ? "" : "+") + residentNet}
-          </span>
-        </div>
+      <div className={"user-net"}>
+        Outstanding
+        <span className={"user-net-text" + (owesMoney ? " red" : "")}>
+          {(owesMoney ? "-" : residentNet === 0 ? "" : "+") + residentNet}
+        </span>
       </div>
     </div>
   );

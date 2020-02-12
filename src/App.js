@@ -5,7 +5,7 @@ import {
   getResidentsForFlat,
   getPaymentsForFlat
 } from "./DBService";
-
+import CurrencyFormat from "react-currency-format";
 import ResidentStats from "./ResidentStats";
 
 const App = () => {
@@ -62,6 +62,7 @@ const App = () => {
   };
 
   const loader = <div className={"loader"}>Loading...</div>;
+  const currency = "NZD";
 
   return (
     <div className="App">
@@ -71,7 +72,9 @@ const App = () => {
           <span className={"flat-text"}>
             {"Flat " + flatId + " - Total Expense: "}
           </span>
-          <span className={"total-expense"}>{totalExpenses + " NZD"}</span>
+          <span className={"total-expense"}>
+            {totalExpenses + " " + currency}
+          </span>
         </div>
         <div className={"users-section"}>
           {loading ? (

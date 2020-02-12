@@ -1,3 +1,5 @@
+$app-border-color: #535353;
+
 .App {
   text-align: center;
   .app-contents {
@@ -21,33 +23,61 @@
     .user-wrapper {
       margin: 18px;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       flex-grow: 1;
-      .user-icon-and-name {
-        flex-grow: 1;
+      .user-contents-wrapper {
         display: flex;
-        flex-direction: column;
-        .user-icon {
-          justify-self: center;
-          align-self: center;
-          width: 42px;
-          height: 42px;
-        }
-        .user-name {
-          margin-top: 18px;
-          font-size: 18px;
-          font-weight: 500;
+        flex-direction: row;
+        .user-icon-and-name {
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+          .user-icon {
+            margin-top: 8px;
+            justify-self: center;
+            align-self: center;
+            width: 75px;
+            height: 75px;
+          }
+          .user-name {
+            margin-top: 18px;
+            font-size: 18px;
+            font-weight: 500;
+          }
         }
       }
       .user-stats {
-        flex-grow: 0;
-        text-align: left;
-        .user-net {
-          .user-net-text {
-            color: green;
-            &.red {
-              color: red;
-            }
+        display: flex;
+        flex-direction: column;
+        .user-stat-line {
+          flex-grow: 1;
+          padding: 8px;
+          display: flex;
+          flex-direction: row;
+          white-space: nowrap;
+          border-bottom: 1px solid $app-border-color;
+          .user-stat-text {
+            text-align: left;
+            margin-right: 18px;
+            flex-grow: 1;
+          }
+          .right-number {
+            flex-grow: 0;
+            text-align: right;
+            font-weight: 500;
+          }
+        }
+      }
+      .user-net {
+        margin: 18px 0;
+        flex-grow: 1;
+        font-size: 18px;
+        text-align: center;
+        .user-net-text {
+          margin-left: 18px;
+          color: green;
+          &.red {
+            color: red;
           }
         }
       }
