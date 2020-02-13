@@ -1,4 +1,13 @@
 $app-border-color: #535353;
+$app-main-color: #22243c;
+
+$app-gradient-background: rgb(2, 0, 36);
+$app-gradient: linear-gradient(
+  90deg,
+  rgba(2, 0, 36, 1) 0%,
+  rgba(109, 63, 167, 1) 35%,
+  rgba(171, 33, 167, 1) 100%
+);
 
 .App {
   text-align: center;

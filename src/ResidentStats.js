@@ -14,6 +14,7 @@ const ResidentStats = ({
     0
   );
 
+  // Your share in the expenses you've made.
   const expensesPartFromExpensesMade = expensesMade.reduce(
     (acc, expense) => acc + expense.amount / (expense.payees.length + 1),
     0
@@ -23,7 +24,7 @@ const ResidentStats = ({
     (acc, expense) => acc + expense.amount / (expense.payees.length + 1),
     0
   );
-  // How much you've paid yourself
+  // How much you've put in as payments yourself
   const paymentsTotal = payments.reduce(
     (acc, payment) => acc + payment.amount,
     0
@@ -34,7 +35,7 @@ const ResidentStats = ({
     0
   );
   const otherPeoplesPaymentsTotal = allPayments
-    .filter(payment => payment.payer != resident.id)
+    .filter(payment => payment.payer !== resident.id)
     .reduce((acc, payment) => acc + payment.amount, 0);
   const residentNet =
     expensesTotal -
@@ -66,7 +67,7 @@ const ResidentStats = ({
             </div>
           </div>
           <div className={"user-stat-line"}>
-            <div className={"user-stat-text"}>Paid</div>
+            <div className={"user-stat-text"}>Payments total</div>
             <div className={"right-number"}>
               <CurrencyFormat
                 value={paymentsTotal}
