@@ -13,6 +13,12 @@ const ResidentStats = ({
     (acc, expense) => acc + expense.amount,
     0
   );
+
+  const expensesPartFromExpensesMade = expensesMade.reduce(
+    (acc, expense) => acc + expense.amount / (expense.payees.length + 1),
+    0
+  );
+
   const expensesTotal = expenses.reduce(
     (acc, expense) => acc + expense.amount / (expense.payees.length + 1),
     0
@@ -52,7 +58,7 @@ const ResidentStats = ({
             <div className={"user-stat-text"}>Share of Total Expenses</div>
             <div className={"right-number"}>
               <CurrencyFormat
-                value={expensesTotal}
+                value={expensesTotal + expensesPartFromExpensesMade}
                 displayType={"text"}
                 thousandSeparator={true}
                 prefix={"$"}
