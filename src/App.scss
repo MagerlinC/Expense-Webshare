@@ -10,11 +10,24 @@ $app-border-color: #535353;
   .flat-header {
     font-size: 24px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin-bottom: 66px;
-    .total-expense {
-      margin-left: 18px;
-      font-weight: 500;
+    .flat-text {
+      display: flex;
+      flex-direction: row;
+      text-align: left;
+      padding: 8px;
+      .flat-text-header {
+        font-size: 18px;
+        font-weight: normal;
+        margin-right: 8px;
+        text-align: left;
+      }
+      span {
+        font-size: 18px;
+        min-width: 90px;
+        text-align: right;
+      }
     }
   }
   .users-section {

@@ -5,8 +5,8 @@ import {
   getResidentsForFlat,
   getPaymentsForFlat
 } from "./DBService";
-import CurrencyFormat from "react-currency-format";
 import ResidentStats from "./ResidentStats";
+import CurrencyFormat from "react-currency-format";
 
 const App = () => {
   document.title = "WSA - WebShare";
@@ -44,6 +44,11 @@ const App = () => {
     0
   );
 
+  const totalPayments = payments.reduce(
+    (acc, payment) => payment.amount + acc,
+    0
+  );
+
   const getExpensesMadeByPerson = personId => {
     const personExpenses = expenses.filter(
       expense => expense.payer === personId
@@ -62,19 +67,31 @@ const App = () => {
   };
 
   const loader = <div className={"loader"}>Loading...</div>;
-  const currency = "NZD";
 
   return (
     <div className="App">
       <header className="App-header">WSA WebShare</header>
       <div className={"app-contents"}>
         <div className={"flat-header"}>
-          <span className={"flat-text"}>
-            {"Flat " + flatId + " - Total Expense: "}
-          </span>
-          <span className={"total-expense"}>
-            {totalExpenses + " " + currency}
-          </span>
+          <div className={"flat-text"}>{"Stats for Flat " + flatId}</div>
+          <div className={"flat-text"}>
+            <div className={"flat-text-header"}>Total Expenses</div>
+            <CurrencyFormat
+              displayType={"text"}
+              thousandSeparator={true}
+              prefix={"$"}
+              value={totalExpenses}
+            />
+          </div>
+          <div className={"flat-text"}>
+            <div className={"flat-text-header"}>Total Payments</div>
+            <CurrencyFormat
+              displayType={"text"}
+              thousandSeparator={true}
+              prefix={"$"}
+              value={totalPayments}
+            />
+          </div>
         </div>
         <div className={"users-section"}>
           {loading ? (
@@ -86,6 +103,7 @@ const App = () => {
                 resident={resident}
                 expensesMade={getExpensesMadeByPerson(resident.id)}
                 expenses={getExpensesForPerson(resident.id)}
+                allPayments={payments}
                 payments={getPaymentsForPerson(resident.id)}
               />
             ))

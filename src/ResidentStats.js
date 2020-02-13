@@ -1,21 +1,39 @@
 import React from "react";
 import UserIcon from "./assets/user.svg";
+import CurrencyFormat from "react-currency-format";
 
-const ResidentStats = ({ resident, expensesMade, expenses, payments }) => {
+const ResidentStats = ({
+  resident,
+  expensesMade,
+  expenses,
+  payments,
+  allPayments
+}) => {
   const expensesMadeTotal = expensesMade.reduce(
     (acc, expense) => acc + expense.amount,
     0
   );
-  // TODO: You are not counted as a payee in the expenses you made yourself
   const expensesTotal = expenses.reduce(
     (acc, expense) => acc + expense.amount / (expense.payees.length + 1),
     0
   );
+  // How much you've paid yourself
   const paymentsTotal = payments.reduce(
     (acc, payment) => acc + payment.amount,
     0
   );
-  const residentNet = expensesTotal - (expensesMadeTotal + paymentsTotal);
+  // Counting your part of an expense you paid for, as a payment to the group
+  const paymentsFromOwnExpenses = expensesMade.reduce(
+    (acc, expense) => acc + expense.amount / (expense.payees.length + 1),
+    0
+  );
+  const otherPeoplesPaymentsTotal = allPayments
+    .filter(payment => payment.payer != resident.id)
+    .reduce((acc, payment) => acc + payment.amount, 0);
+  const residentNet =
+    expensesTotal -
+    (paymentsFromOwnExpenses + paymentsTotal) +
+    otherPeoplesPaymentsTotal;
   const owesMoney = residentNet > 0;
 
   return (
@@ -32,11 +50,25 @@ const ResidentStats = ({ resident, expensesMade, expenses, payments }) => {
           </div>
           <div className={"user-stat-line"}>
             <div className={"user-stat-text"}>Share of Total Expenses</div>
-            <div className={"right-number"}>{expensesTotal}</div>
+            <div className={"right-number"}>
+              <CurrencyFormat
+                value={expensesTotal}
+                displayType={"text"}
+                thousandSeparator={true}
+                prefix={"$"}
+              />
+            </div>
           </div>
           <div className={"user-stat-line"}>
             <div className={"user-stat-text"}>Paid</div>
-            <div className={"right-number"}>{paymentsTotal}</div>
+            <div className={"right-number"}>
+              <CurrencyFormat
+                value={paymentsTotal}
+                displayType={"text"}
+                thousandSeparator={true}
+                prefix={"$"}
+              />
+            </div>
           </div>
         </div>
       </div>
