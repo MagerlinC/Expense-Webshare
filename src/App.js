@@ -73,7 +73,9 @@ const App = () => {
       <header className="app-header">WebShare</header>
       <div className={"app-contents"}>
         <div className={"flat-header"}>
-          <div className={"flat-text"}>{"Stats for Flat " + flatId}</div>
+          <div className={"flat-text flat-header"}>
+            {"Stats for Flat " + flatId}
+          </div>
           <div className={"flat-text"}>
             <div className={"flat-text-header"}>Total Expenses</div>
             <CurrencyFormat

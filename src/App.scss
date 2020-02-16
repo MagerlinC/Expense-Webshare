@@ -30,11 +30,15 @@ $app-gradient: linear-gradient(
     display: flex;
     flex-direction: column;
     margin-bottom: 66px;
+    .flat-header {
+      // background: $app-gradient;
+      flex-grow: 0;
+    }
     .flat-text {
       display: flex;
       flex-direction: row;
       text-align: left;
-      padding: 8px;
+      padding: 8px 8px 8px 0;
       .flat-text-header {
         font-size: 18px;
         font-weight: normal;
@@ -51,6 +55,7 @@ $app-gradient: linear-gradient(
   .users-section {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     .user-wrapper {
       box-shadow: $app-box-shadow;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -58,13 +63,15 @@ $app-gradient: linear-gradient(
         box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
           0 10px 10px rgba(0, 0, 0, 0.22);
       }
+      &:not(:first-child) {
+        margin-left: 18px;
+      }
       position: relative;
-      margin: 18px;
       padding: 18px;
       background-color: $app-accent-color;
       display: flex;
       flex-direction: column;
-      flex-grow: 1;
+      flex-grow: 0;
       .user-header {
         position: absolute;
         top: 0;
@@ -91,7 +98,8 @@ $app-gradient: linear-gradient(
         display: flex;
         flex-direction: row;
         .user-icon-and-name {
-          flex-grow: 1;
+          flex-grow: 0;
+          margin-right: 18px;
           display: flex;
           flex-direction: column;
           .user-icon {
@@ -191,6 +199,10 @@ $app-gradient: linear-gradient(
       display: flex;
       flex-direction: column;
       .user-wrapper {
+        &:not(:first-child) {
+          margin-left: 0;
+          margin-top: 18px;
+        }
         .user-contents-wrapper {
           flex-direction: column;
           .user-icon-and-name {
