@@ -4,12 +4,15 @@ $app-accent-color: #333255;
 $app-header-color: #735afb;
 
 $app-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+$app-hover-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+  0 10px 10px rgba(0, 0, 0, 0.22);
+
+$app-transition-all: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
 $app-gradient-background: rgb(2, 0, 36);
 $app-gradient: linear-gradient(
   90deg,
-  rgba(2, 0, 36, 1) 0%,
-  rgba(109, 63, 167, 1) 35%,
+  rgb(104, 73, 143) 0%,
   rgba(171, 33, 167, 1) 100%
 );
 
@@ -30,9 +33,43 @@ $app-gradient: linear-gradient(
     display: flex;
     flex-direction: column;
     margin-bottom: 66px;
-    .flat-header {
-      // background: $app-gradient;
-      flex-grow: 0;
+    flex-grow: 1;
+    .flat-header-bar {
+      display: flex;
+      flex-direction: row;
+      .flat-text-header {
+        text-align: left;
+        flex-grow: 1;
+      }
+      .new-button-and-modal {
+        position: relative;
+        flex-grow: 0;
+        .new-button {
+          cursor: pointer;
+          width: 120px;
+          color: white;
+          font-size: 18px;
+          font-weight: bold;
+          border-radius: 4px;
+          background: $app-gradient;
+          border: none;
+          outline: none;
+          &:hover {
+            transform: scale(1.05);
+            transition: $app-transition-all;
+            box-shadow: $app-hover-box-shadow;
+          }
+        }
+        .add-new-modal {
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 2;
+          height: 500px;
+          background: white;
+          border: 1px solid $app-border-color;
+        }
+      }
     }
     .flat-text {
       display: flex;
@@ -58,10 +95,9 @@ $app-gradient: linear-gradient(
     flex-wrap: wrap;
     .user-wrapper {
       box-shadow: $app-box-shadow;
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition: $app-transition-all;
       &:hover {
-        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
-          0 10px 10px rgba(0, 0, 0, 0.22);
+        box-shadow: $app-hover-box-shadow;
       }
       &:not(:first-child) {
         margin-left: 18px;
@@ -222,3 +258,48 @@ $app-gradient: linear-gradient(
     }
   }
 }
+// LOADER RING START
+.loader {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border: 8px solid #fff;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #fff transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// LOADER RING END

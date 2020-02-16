@@ -7,6 +7,7 @@ import {
 } from "./DBService";
 import ResidentStats from "./ResidentStats";
 import CurrencyFormat from "react-currency-format";
+import Loader from "./loader";
 
 const App = () => {
   document.title = "WSA - WebShare";
@@ -15,6 +16,7 @@ const App = () => {
   const [expenses, setExpenses] = useState([]);
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     if (residents.length === 0) {
       getResidentsForFlat(flatId).then(querySnapshot => {
@@ -66,15 +68,50 @@ const App = () => {
     );
   };
 
-  const loader = <div className={"loader"}>Loading...</div>;
+  const openModal = () => {
+    if (!showModal) {
+      setShowModal(true);
+    }
+  };
+  let modalWrapperDiv = null;
+  const closeModal = e => {
+    const newTarget = e.relatedTarget;
+    if (modalWrapperDiv && !modalWrapperDiv.contains(newTarget) && showModal) {
+      setShowModal(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="App">
+        <header className="app-header">WebShare</header>
+        <div className={"app-contents"}>
+          <Loader />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="App">
       <header className="app-header">WebShare</header>
       <div className={"app-contents"}>
         <div className={"flat-header"}>
-          <div className={"flat-text flat-header"}>
-            {"Stats for Flat " + flatId}
+          <div className={"flat-header-bar"}>
+            <span className={"flat-text-header"}>
+              {"Stats for Flat " + flatId}
+            </span>
+            <div
+              ref={div => (modalWrapperDiv = div)}
+              tabIndex="0"
+              onMouseLeave={closeModal}
+              className={"new-button-and-modal"}
+            >
+              <button onMouseEnter={openModal} className={"new-button"}>
+                +
+              </button>
+              {showModal && <div className={"add-new-modal"}>Modal</div>}
+            </div>
           </div>
           <div className={"flat-text"}>
             <div className={"flat-text-header"}>Total Expenses</div>
@@ -96,9 +133,7 @@ const App = () => {
           </div>
         </div>
         <div className={"users-section"}>
-          {loading ? (
-            loader
-          ) : residents ? (
+          {residents ? (
             residents.map(resident => (
               <ResidentStats
                 isUser={resident.id === 1}
