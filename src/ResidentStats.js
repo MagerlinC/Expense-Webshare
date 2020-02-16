@@ -7,7 +7,8 @@ const ResidentStats = ({
   expensesMade,
   expenses,
   payments,
-  allPayments
+  allPayments,
+  isUser
 }) => {
   const expensesMadeTotal = expensesMade.reduce(
     (acc, expense) => acc + expense.amount,
@@ -45,6 +46,13 @@ const ResidentStats = ({
 
   return (
     <div className={"user-wrapper"}>
+      {isUser && (
+        <div className={"user-header"}>
+          <div className={"user-triangle"}>
+            <span className={"you-text"}>You</span>
+          </div>
+        </div>
+      )}
       <div className={"user-contents-wrapper"}>
         <div className={"user-icon-and-name"}>
           <img alt={"user-icon"} src={UserIcon} className={"user-icon"} />

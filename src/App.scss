@@ -1,5 +1,9 @@
 $app-border-color: #535353;
 $app-main-color: #22243c;
+$app-accent-color: #333255;
+$app-header-color: #735afb;
+
+$app-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
 $app-gradient-background: rgb(2, 0, 36);
 $app-gradient: linear-gradient(
@@ -10,7 +14,12 @@ $app-gradient: linear-gradient(
 );
 
 .App {
+  background-color: $app-main-color;
+  color: white;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   .app-contents {
     margin: 66px;
     display: flex;
@@ -43,10 +52,41 @@ $app-gradient: linear-gradient(
     display: flex;
     flex-direction: row;
     .user-wrapper {
+      box-shadow: $app-box-shadow;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      &:hover {
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+          0 10px 10px rgba(0, 0, 0, 0.22);
+      }
+      position: relative;
       margin: 18px;
+      padding: 18px;
+      background-color: $app-accent-color;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
+      .user-header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        .user-triangle {
+          width: 0;
+          height: 0;
+          border-style: solid;
+          border-width: 40px 40px 0 0;
+          border-color: $app-header-color transparent transparent transparent;
+        }
+        .you-text {
+          font-size: 12px;
+          font-weight: bold;
+          position: absolute;
+          top: 1px;
+          left: -2px;
+          padding: 3px;
+          transform: rotate(-45deg);
+        }
+      }
       .user-contents-wrapper {
         display: flex;
         flex-direction: row;
@@ -118,8 +158,8 @@ $app-gradient: linear-gradient(
   }
 }
 
-.App-header {
-  background-color: #282c34;
+.app-header {
+  background: $app-header-color;
   height: 66px;
   display: flex;
   flex-direction: column;
@@ -139,5 +179,34 @@ $app-gradient: linear-gradient(
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .App {
+    .app-contents {
+      margin: 18px;
+    }
+    .users-section {
+      display: flex;
+      flex-direction: column;
+      .user-wrapper {
+        .user-contents-wrapper {
+          flex-direction: column;
+          .user-icon-and-name {
+            .user-icon {
+              width: 42px;
+              height: 42px;
+            }
+            .user-name {
+              white-space: wrap;
+            }
+          }
+          .user-stats {
+            font-size: 14px;
+          }
+        }
+      }
+    }
   }
 }

@@ -70,7 +70,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <header className="App-header">WSA WebShare</header>
+      <header className="app-header">WebShare</header>
       <div className={"app-contents"}>
         <div className={"flat-header"}>
           <div className={"flat-text"}>{"Stats for Flat " + flatId}</div>
@@ -99,6 +99,7 @@ const App = () => {
           ) : residents ? (
             residents.map(resident => (
               <ResidentStats
+                isUser={resident.id === 1}
                 key={resident.id}
                 resident={resident}
                 expensesMade={getExpensesMadeByPerson(resident.id)}
