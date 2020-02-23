@@ -16,5 +16,13 @@
     .note-input-wrapper {
       margin-bottom: 18px;
     }
+    .users-list {
+      display: flex;
+      flex-direction: column;
+      .user-line-item {
+        display: flex;
+        flex-direction: row;
+      }
+    }
   }
 }

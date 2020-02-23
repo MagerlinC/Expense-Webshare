@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./App.scss";
 import {
   getFlatExpenseSnapshot,
-  //getExpensesForFlat,
   getResidentsForFlat,
   getPaymentsForFlat
 } from "./DBService";
@@ -11,6 +10,8 @@ import CurrencyFormat from "react-currency-format";
 import Loader from "./components/loader/loader";
 import AddNewModal from "./components/add-new-modal/add-new-modal";
 import Toaster from "./components/toaster/toaster";
+import ExpenseList from "./components/expense-list/expense-list";
+import AddResidentCard from "./components/add-resident-card/add-resident-card";
 
 const App = () => {
   document.title = "WSA - WebShare";
@@ -44,7 +45,7 @@ const App = () => {
     if (loading) {
       setLoading(false);
     }
-  }, []);
+  }, [flatExpenseSnapshot, loading]);
 
   const showToaster = text => {
     setToasterText(text);
@@ -130,6 +131,7 @@ const App = () => {
                 <div className={"modal-spacer-wrapper"}>
                   <div className={"spacer"} />
                   <AddNewModal
+                    users={residents}
                     showToaster={showToaster}
                     closeModal={closeModal}
                   />
@@ -174,6 +176,10 @@ const App = () => {
               {"No residents found for flat " + flatId + "."}
             </div>
           )}
+          <AddResidentCard />
+        </div>
+        <div className={"expenses-section"}>
+          <ExpenseList expenses={flatExpenseSnapshot} />
         </div>
       </div>
       <Toaster text={toasterText} shown={toasterShown} />

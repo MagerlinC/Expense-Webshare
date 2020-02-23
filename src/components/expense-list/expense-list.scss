@@ -1,0 +1,64 @@
+@import "../../variables.scss";
+.expense-list-wrapper {
+  .expense-list-header {
+    display: flex;
+    flex-direction: row;
+    .expense-list-header-text {
+      flex-grow: 0;
+      text-align: left;
+      font-size: 24px;
+      padding: 18px;
+    }
+    .expense-list-arrow {
+      margin-left: 18px;
+      position: relative;
+      cursor: pointer;
+      flex-grow: 0;
+      width: 24px;
+      margin-right: 18px;
+      .arrow-icon {
+        transition: $app-transition-all;
+        width: 24px;
+        position: absolute;
+        top: 35%;
+        right: 50%;
+        background-color: rgba(0, 0, 0, 0);
+        &:hover {
+          transform: scale(1.25);
+        }
+        &.expanded {
+          transform: rotate(180deg);
+          &:hover {
+            transform: rotate(180deg) scale(1.25);
+          }
+        }
+      }
+    }
+  }
+  .expense-list-contents-wrapper {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    .expense-list-item-wrapper {
+      margin: 0 18px 18px 18px;
+      padding: 10px 0 18px 0;
+      border-bottom: 1px solid white;
+      &.first {
+        padding-top: 18px;
+      }
+    }
+    .expense-list-column-header {
+      background: $app-accent-color;
+      display: flex;
+      flex-direction: row;
+      padding: 18px;
+      div {
+        text-align: left;
+        width: 25%;
+      }
+      .expense-amount {
+        text-align: right;
+      }
+    }
+  }
+}

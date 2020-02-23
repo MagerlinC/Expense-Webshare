@@ -1,0 +1,26 @@
+.expense-list-item-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  .expense-payer {
+    text-align: left;
+    width: 25%;
+  }
+  .expense-payees {
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    width: 25%;
+    .payee-item {
+      margin-left: 4px;
+    }
+  }
+  .expense-note {
+    width: 25%;
+    text-align: left;
+  }
+  .expense-amount {
+    width: 25%;
+    text-align: right;
+  }
+}

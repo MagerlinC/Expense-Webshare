@@ -1,0 +1,11 @@
+.add-resident-card-wrapper {
+  cursor: pointer;
+  flex-grow: 1;
+  margin-left: 18px;
+  display: flex;
+  flex-direction: column;
+  .user-wrapper {
+    flex-grow: 1;
+    height: calc(100% - 36px);
+  }
+}

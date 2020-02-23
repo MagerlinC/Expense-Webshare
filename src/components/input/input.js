@@ -9,17 +9,25 @@ const Input = ({
   onBlur,
   placeholder,
   textAlign,
-  focusOnMount
+  focusOnMount,
+  onEnter
 }) => {
   let input;
   const onChangeHandler = changeEvent => {
     onChange(changeEvent.target.value);
   };
+
+  const onKeyDownHandler = keyEvent => {
+    if (keyEvent.key === "Enter" && onEnter) {
+      onEnter();
+    }
+  };
+
   useEffect(() => {
     if (focusOnMount && input) {
       input.focus();
     }
-  }, []);
+  }, [focusOnMount, input]);
 
   return (
     <div className={"input-wrapper" + (isCurrency ? " currency" : "")}>
@@ -31,6 +39,7 @@ const Input = ({
         onBlur={onBlur}
         value={value}
         onChange={onChangeHandler}
+        onKeyDown={onKeyDownHandler}
         className={"input"}
       />
     </div>
