@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./add-new-modal.scss";
 import Input from "../input/input";
 import Button from "../button/button";
+import { createExpense } from "../../DBService";
 
 const AddNewModal = ({ closeModal, showToaster }) => {
   let modal;
@@ -11,13 +12,16 @@ const AddNewModal = ({ closeModal, showToaster }) => {
 
   const onModalBlur = e => {
     const newTarget = e.relatedTarget;
-    if (!modalHasFocus && modal && !modal.contains(newTarget)) {
+    if (modal && (!newTarget == null || !modal.contains(newTarget))) {
       closeModal();
     }
   };
 
-  const addExpense = (amount, note) => {
+  const postExpense = (amount, note) => {
+    const payer = 1;
+    const payees = [2, 3];
     // Do work
+    createExpense(amount, note, payer, payees);
     closeModal();
     showToaster("Expense Added");
   };
@@ -53,7 +57,10 @@ const AddNewModal = ({ closeModal, showToaster }) => {
           />
         </div>
         <div className={"add-button-input-wrapper"}>
-          <Button onClick={addExpense} text={"Add"} />
+          <Button
+            onClick={() => postExpense(expenseAmount, expenseNote)}
+            text={"Add"}
+          />
         </div>
       </div>
       <div className={"bottom-section"}></div>

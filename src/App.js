@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./App.scss";
 import {
-  getExpensesForFlat,
+  getFlatExpenseSnapshot,
+  //getExpensesForFlat,
   getResidentsForFlat,
   getPaymentsForFlat
 } from "./DBService";
@@ -13,29 +14,29 @@ import Toaster from "./components/toaster/toaster";
 
 const App = () => {
   document.title = "WSA - WebShare";
-  const flatId = "8d";
+  const flatId = "8D";
   const [residents, setResidents] = useState([]);
-  const [expenses, setExpenses] = useState([]);
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [toasterText, setToasterText] = useState(undefined);
   const [toasterShown, setToasterShown] = useState(false);
+
+  const [flatExpenseSnapshot, setFlatExpenseSnapshot] = useState(undefined);
+
   useEffect(() => {
+    if (!flatExpenseSnapshot) {
+      getFlatExpenseSnapshot(doc => setFlatExpenseSnapshot(doc));
+    }
+
     if (residents.length === 0) {
-      getResidentsForFlat(flatId).then(querySnapshot => {
+      getResidentsForFlat().then(querySnapshot => {
         const residents = querySnapshot.docs.map(doc => doc.data());
         setResidents(residents);
       });
     }
-    if (expenses.length === 0) {
-      getExpensesForFlat(flatId).then(querySnapshot => {
-        const expenses = querySnapshot.docs.map(doc => doc.data());
-        setExpenses(expenses);
-      });
-    }
     if (payments.length === 0) {
-      getPaymentsForFlat(flatId).then(querySnapshot => {
+      getPaymentsForFlat().then(querySnapshot => {
         const payments = querySnapshot.docs.map(doc => doc.data());
         setPayments(payments);
       });
@@ -52,10 +53,12 @@ const App = () => {
     setTimeout(() => setToasterShown(false), 2500);
   };
 
-  const totalExpenses = expenses.reduce(
-    (acc, expense) => expense.amount + acc,
-    0
-  );
+  const totalExpenses = flatExpenseSnapshot
+    ? flatExpenseSnapshot.docs.reduce(
+        (acc, doc) => acc + parseInt(doc.data().amount),
+        0
+      )
+    : 0;
 
   const totalPayments = payments.reduce(
     (acc, payment) => payment.amount + acc,
@@ -63,10 +66,12 @@ const App = () => {
   );
 
   const getExpensesMadeByPerson = personId => {
-    const personExpenses = expenses.filter(
-      expense => expense.payer === personId
-    );
-    return personExpenses;
+    const personExpenses = flatExpenseSnapshot
+      ? flatExpenseSnapshot.docs.filter(
+          expense => expense.data().payer === personId
+        )
+      : [];
+    return { docs: personExpenses };
   };
 
   const getPaymentsForPerson = personId => {
@@ -74,9 +79,13 @@ const App = () => {
   };
 
   const getExpensesForPerson = personId => {
-    return expenses.filter(expense =>
-      expense.payees.find(pId => personId === pId)
-    );
+    return {
+      docs: flatExpenseSnapshot
+        ? flatExpenseSnapshot.docs.filter(expense =>
+            expense.data().payees.find(pId => personId === pId)
+          )
+        : []
+    };
   };
 
   const openModal = () => {
