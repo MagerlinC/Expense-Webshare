@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./input.scss";
 
 const Input = ({
@@ -8,15 +8,23 @@ const Input = ({
   onFocus,
   onBlur,
   placeholder,
-  textAlign
+  textAlign,
+  focusOnMount
 }) => {
+  let input;
   const onChangeHandler = changeEvent => {
     onChange(changeEvent.target.value);
   };
+  useEffect(() => {
+    if (focusOnMount && input) {
+      input.focus();
+    }
+  }, []);
 
   return (
     <div className={"input-wrapper" + (isCurrency ? " currency" : "")}>
       <input
+        ref={inputElem => (input = inputElem)}
         style={{ textAlign: textAlign }}
         placeholder={placeholder}
         onFocus={onFocus}

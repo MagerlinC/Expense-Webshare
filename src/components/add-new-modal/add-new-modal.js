@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./add-new-modal.scss";
 import Input from "../input/input";
 import Button from "../button/button";
@@ -8,7 +8,6 @@ const AddNewModal = ({ closeModal, showToaster }) => {
   let modal;
   const [expenseAmount, setExpenseAmount] = useState(undefined);
   const [expenseNote, setExpenseNote] = useState(undefined);
-  const [modalHasFocus, setModalHasFocus] = useState(false);
 
   const onModalBlur = e => {
     const newTarget = e.relatedTarget;
@@ -38,8 +37,7 @@ const AddNewModal = ({ closeModal, showToaster }) => {
         <div className={"amount-input-wrapper"}>
           <Input
             placeholder={"Amount"}
-            onFocus={() => setModalHasFocus(true)}
-            onBlur={() => setModalHasFocus(false)}
+            focusOnMount={true}
             isCurrency={true}
             onChange={setExpenseAmount}
             value={expenseAmount}
@@ -48,8 +46,6 @@ const AddNewModal = ({ closeModal, showToaster }) => {
         <div className={"note-input-wrapper"}>
           <Input
             placeholder={"Note"}
-            onFocus={() => setModalHasFocus(true)}
-            onBlur={() => setModalHasFocus(false)}
             isCurrency={false}
             textAlign={"right"}
             onChange={setExpenseNote}

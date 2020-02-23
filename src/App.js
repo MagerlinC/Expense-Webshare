@@ -44,7 +44,7 @@ const App = () => {
     if (loading) {
       setLoading(false);
     }
-  });
+  }, []);
 
   const showToaster = text => {
     setToasterText(text);
