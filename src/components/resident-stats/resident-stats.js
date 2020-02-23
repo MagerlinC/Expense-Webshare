@@ -10,7 +10,6 @@ const ResidentStats = ({
   allPayments,
   isUser
 }) => {
-  console.log(expensesMade);
   const expensesMadeTotal = expensesMade
     ? expensesMade.docs.reduce(
         (acc, expense) => acc + parseInt(expense.data().amount),
@@ -84,7 +83,11 @@ const ResidentStats = ({
             <div className={"user-stat-text"}>Share of Total Expenses</div>
             <div className={"right-number"}>
               <CurrencyFormat
-                value={expensesTotal + expensesPartFromExpensesMade}
+                value={
+                  Math.round(
+                    100 * (expensesTotal + expensesPartFromExpensesMade)
+                  ) / 100
+                }
                 displayType={"text"}
                 thousandSeparator={true}
                 prefix={"$"}
