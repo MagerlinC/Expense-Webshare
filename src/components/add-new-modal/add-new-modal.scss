@@ -1,0 +1,20 @@
+@import "../../variables.scss";
+
+.add-new-modal {
+  color: #535353;
+  padding: 18px;
+  background: white;
+  border: 1px solid $app-border-color;
+  .top-section {
+    .modal-header {
+      white-space: nowrap;
+      margin: 18px 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .amount-input-wrapper,
+    .note-input-wrapper {
+      margin-bottom: 18px;
+    }
+  }
+}

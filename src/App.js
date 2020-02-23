@@ -5,9 +5,11 @@ import {
   getResidentsForFlat,
   getPaymentsForFlat
 } from "./DBService";
-import ResidentStats from "./ResidentStats";
+import ResidentStats from "./components/resident-stats/resident-stats";
 import CurrencyFormat from "react-currency-format";
-import Loader from "./loader";
+import Loader from "./components/loader/loader";
+import AddNewModal from "./components/add-new-modal/add-new-modal";
+import Toaster from "./components/toaster/toaster";
 
 const App = () => {
   document.title = "WSA - WebShare";
@@ -17,6 +19,8 @@ const App = () => {
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [toasterText, setToasterText] = useState(undefined);
+  const [toasterShown, setToasterShown] = useState(false);
   useEffect(() => {
     if (residents.length === 0) {
       getResidentsForFlat(flatId).then(querySnapshot => {
@@ -40,6 +44,13 @@ const App = () => {
       setLoading(false);
     }
   });
+
+  const showToaster = text => {
+    setToasterText(text);
+    setToasterShown(true);
+    // Hide toaster again in 2500 ms
+    setTimeout(() => setToasterShown(false), 2500);
+  };
 
   const totalExpenses = expenses.reduce(
     (acc, expense) => expense.amount + acc,
@@ -73,13 +84,9 @@ const App = () => {
       setShowModal(true);
     }
   };
-  let modalWrapperDiv = null;
-  const closeModal = e => {
-    const newTarget = e.relatedTarget;
-    if (modalWrapperDiv && !modalWrapperDiv.contains(newTarget) && showModal) {
-      setShowModal(false);
-    }
-  };
+  function closeModal() {
+    setShowModal(false);
+  }
 
   if (loading) {
     return (
@@ -101,16 +108,24 @@ const App = () => {
             <span className={"flat-text-header"}>
               {"Stats for Flat " + flatId}
             </span>
-            <div
-              ref={div => (modalWrapperDiv = div)}
-              tabIndex="0"
-              onMouseLeave={closeModal}
-              className={"new-button-and-modal"}
-            >
-              <button onMouseEnter={openModal} className={"new-button"}>
+            <div className={"new-button-and-modal"}>
+              <button
+                title={"Add Expense"}
+                onTouchStart={openModal}
+                onMouseEnter={openModal}
+                className={"new-button"}
+              >
                 +
               </button>
-              {showModal && <div className={"add-new-modal"}>Modal</div>}
+              {showModal && (
+                <div className={"modal-spacer-wrapper"}>
+                  <div className={"spacer"} />
+                  <AddNewModal
+                    showToaster={showToaster}
+                    closeModal={closeModal}
+                  />
+                </div>
+              )}
             </div>
           </div>
           <div className={"flat-text"}>
@@ -152,6 +167,7 @@ const App = () => {
           )}
         </div>
       </div>
+      <Toaster text={toasterText} shown={toasterShown} />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import UserIcon from "./assets/user.svg";
+import UserIcon from "../../assets/user.svg";
 import CurrencyFormat from "react-currency-format";
 
 const ResidentStats = ({

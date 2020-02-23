@@ -1,0 +1,22 @@
+@import "../../variables.scss";
+.button-wrapper {
+  .button {
+    cursor: pointer;
+    width: 120px;
+    height: 32px;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    background: $app-gradient;
+    border: none;
+    outline: none;
+    &:hover {
+      transform: scale(1.05);
+      transition: $app-transition-all;
+      box-shadow: $app-hover-box-shadow;
+    }
+    border: none;
+    outline: none;
+    padding: 8px;
+  }
+}
