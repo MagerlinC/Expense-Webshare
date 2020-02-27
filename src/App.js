@@ -12,10 +12,12 @@ import AddNewModal from "./components/add-new-modal/add-new-modal";
 import Toaster from "./components/toaster/toaster";
 import ExpenseList from "./components/expense-list/expense-list";
 import AddResidentCard from "./components/add-resident-card/add-resident-card";
+import Button from "./components/button/button";
 
 const App = () => {
   document.title = "WSA - WebShare";
   const flatId = "8D";
+  const userId = "h2cojFL91b9Izs5Rq5y5";
   const [residents, setResidents] = useState([]);
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,10 +33,7 @@ const App = () => {
     }
 
     if (residents.length === 0) {
-      getResidentsForFlat().then(querySnapshot => {
-        const residents = querySnapshot.docs.map(doc => doc.data());
-        setResidents(residents);
-      });
+      getResidentsForFlat(doc => setResidents(doc));
     }
     if (payments.length === 0) {
       getPaymentsForFlat().then(querySnapshot => {
@@ -69,21 +68,21 @@ const App = () => {
   const getExpensesMadeByPerson = personId => {
     const personExpenses = flatExpenseSnapshot
       ? flatExpenseSnapshot.docs.filter(
-          expense => expense.data().payer === personId
+          expense => expense.data().payer.id === personId
         )
       : [];
     return { docs: personExpenses };
   };
 
   const getPaymentsForPerson = personId => {
-    return payments.filter(payment => payment.payer === personId);
+    return payments.filter(payment => payment.payer.id === personId);
   };
 
   const getExpensesForPerson = personId => {
     return {
       docs: flatExpenseSnapshot
         ? flatExpenseSnapshot.docs.filter(expense =>
-            expense.data().payees.find(pId => personId === pId)
+            expense.data().payees.find(payee => personId === payee.id)
           )
         : []
     };
@@ -99,6 +98,21 @@ const App = () => {
   function closeModal() {
     setShowModal(false);
   }
+
+  const ResidentStatsComponent = resident => {
+    const residentData = resident.data();
+    return (
+      <ResidentStats
+        isUser={resident.id === userId}
+        key={resident.id}
+        resident={residentData}
+        expensesMade={getExpensesMadeByPerson(resident.id)}
+        expenses={getExpensesForPerson(resident.id)}
+        allPayments={payments}
+        payments={getPaymentsForPerson(resident.id)}
+      />
+    );
+  };
 
   if (loading) {
     return (
@@ -121,21 +135,20 @@ const App = () => {
               {"Stats for Flat " + flatId}
             </span>
             <div className={"new-button-and-modal"}>
-              <button
+              <Button
+                text="Add Expense"
                 id="modal-btn"
                 title={"Add Expense"}
                 onTouchStart={openModal}
                 onClick={openModal}
                 className={"new-button"}
-              >
-                +
-              </button>
+              />
               {showModal && (
                 <div className={"modal-spacer-wrapper"}>
                   <div className={"spacer"} />
                   <AddNewModal
                     blurIgnoreId={"modal-btn"}
-                    users={residents}
+                    users={residents.docs.map(doc => doc.data())}
                     showToaster={showToaster}
                     closeModal={closeModal}
                   />
@@ -163,18 +176,8 @@ const App = () => {
           </div>
         </div>
         <div className={"users-section"}>
-          {residents ? (
-            residents.map(resident => (
-              <ResidentStats
-                isUser={resident.id === 1}
-                key={resident.id}
-                resident={resident}
-                expensesMade={getExpensesMadeByPerson(resident.id)}
-                expenses={getExpensesForPerson(resident.id)}
-                allPayments={payments}
-                payments={getPaymentsForPerson(resident.id)}
-              />
-            ))
+          {residents && residents.docs ? (
+            residents.docs.map(resident => ResidentStatsComponent(resident))
           ) : (
             <div className={"no-users-wrapper"}>
               {"No residents found for flat " + flatId + "."}

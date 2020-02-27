@@ -1,11 +1,52 @@
+@import "../../variables.scss";
 .add-resident-card-wrapper {
+  position: relative;
   cursor: pointer;
-  flex-grow: 1;
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='16' ry='16' stroke='white' stroke-width='5' stroke-dasharray='2%2c25' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+  border-radius: 16px;
+  flex-grow: 0;
   margin-left: 18px;
   display: flex;
   flex-direction: column;
-  .user-wrapper {
-    flex-grow: 1;
-    height: calc(100% - 36px);
+  background-color: rgba(0, 0, 0, 0);
+  box-shadow: $app-box-shadow;
+
+  .user-contents-wrapper {
+    padding: 18px;
+    display: flex;
+    flex-direction: row;
+    .user-name-and-phone {
+      margin: 0 18px;
+      display: flex;
+      flex-direction: column;
+      .user-phone {
+        .input-wrapper {
+          margin-top: 10px;
+        }
+      }
+    }
+    .user-icon-and-name {
+      flex-grow: 0;
+      margin-right: 18px;
+      display: flex;
+      flex-direction: row;
+      .user-icon {
+        opacity: 0.8;
+        margin-top: 8px;
+        justify-self: center;
+        align-self: center;
+        width: 75px;
+        height: 75px;
+      }
+      .user-name {
+        flex-grow: 1;
+        margin-top: 16px;
+        font-size: 18px;
+        font-weight: 500;
+      }
+    }
+  }
+  .button-wrapper {
+    margin-top: 18px;
   }
 }

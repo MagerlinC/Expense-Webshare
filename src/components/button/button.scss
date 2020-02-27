@@ -1,9 +1,10 @@
 @import "../../variables.scss";
 .button-wrapper {
   .button {
+    white-space: nowrap;
     cursor: pointer;
-    width: 120px;
-    height: 36px;
+    min-width: 120px;
+    min-height: 36px;
     color: white;
     font-size: 18px;
     font-weight: bold;
@@ -18,6 +19,6 @@
     }
     border: none;
     outline: none;
-    padding: 8px;
+    padding: 12px;
   }
 }

@@ -3,12 +3,23 @@ import { db } from "./Firebase";
 // TODO, hardcoded flat. Let's figure out who should handle users at a different time
 const flatId = "8d";
 
-export const getResidentsForFlat = () => {
+export const getResidentDetails = residentId => {
+  console.log(residentId);
+  const val = db
+    .collection("flats")
+    .doc(flatId)
+    .collection("residents")
+    .doc(residentId)
+    .get();
+  return val;
+};
+
+export const getResidentsForFlat = onSnapshotFunc => {
   return db
     .collection("flats")
     .doc(flatId)
     .collection("residents")
-    .get();
+    .onSnapshot(doc => onSnapshotFunc(doc));
 };
 
 export const getFlatExpenseSnapshot = onSnapshotFunc => {
@@ -18,14 +29,6 @@ export const getFlatExpenseSnapshot = onSnapshotFunc => {
     .collection("expenses")
     .onSnapshot(doc => onSnapshotFunc(doc));
 };
-
-/*export const getExpensesForFlat = () => {
-  return db
-    .collection("flats")
-    .doc(flatId)
-    .collection("expenses")
-    .get();
-};*/
 
 export const getPaymentsForFlat = () => {
   return db
@@ -57,6 +60,21 @@ export const createExpense = (
       onSuccess
         ? onSuccess
         : console.log("Succesfully posted expense of amount ", amount)
+    )
+    .catch(err => (onError ? onError(err) : console.log(err)));
+};
+
+export const createResident = (name, phone, onSuccess, onError) => {
+  return db
+    .collection("flats")
+    .doc(flatId)
+    .collection("residents")
+    .add({
+      name: name,
+      phone: phone
+    })
+    .then(
+      onSuccess ? onSuccess : console.log("Succesfully created resident ", name)
     )
     .catch(err => (onError ? onError(err) : console.log(err)));
 };

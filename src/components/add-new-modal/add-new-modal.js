@@ -30,10 +30,10 @@ const AddNewModal = ({ closeModal, showToaster, users, blurIgnoreId }) => {
       amount,
       note ? note : "",
       payer,
-      checkedUsers.map(user => user.id)
+      checkedUsers.map(user => user.id),
+      showToaster("Expense Added")
     );
     closeModal();
-    showToaster("Expense Added");
   };
 
   const handleUserCheck = user => {
@@ -65,7 +65,9 @@ const AddNewModal = ({ closeModal, showToaster, users, blurIgnoreId }) => {
             isCurrency={true}
             onChange={setExpenseAmount}
             value={expenseAmount}
-            onEnter={() => postExpense(expenseAmount, expenseNote)}
+            onEnter={() =>
+              postExpense(expenseAmount, expenseNote, checkedUsers)
+            }
           />
         </div>
         <div className={"note-input-wrapper"}>
@@ -75,7 +77,9 @@ const AddNewModal = ({ closeModal, showToaster, users, blurIgnoreId }) => {
             textAlign={"right"}
             onChange={setExpenseNote}
             value={expenseNote}
-            onEnter={() => postExpense(expenseAmount, expenseNote)}
+            onEnter={() =>
+              postExpense(expenseAmount, expenseNote, checkedUsers)
+            }
           />
         </div>
       </div>

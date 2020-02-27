@@ -43,14 +43,19 @@ const ResidentStats = ({
         return acc + expenseData.amount / (expenseData.payees.length + 1);
       }, 0)
     : [];
+
   const otherPeoplesPaymentsTotal = allPayments
     .filter(payment => payment.payer !== resident.id)
     .reduce((acc, payment) => acc + payment.amount, 0);
-  const residentNet = parseInt(
-    expensesTotal -
-      (paymentsFromOwnExpenses + paymentsTotal) +
-      otherPeoplesPaymentsTotal
-  );
+
+  const residentNet =
+    expensesTotal === 0 && paymentsFromOwnExpenses === 0
+      ? 0
+      : parseInt(
+          expensesTotal -
+            (paymentsFromOwnExpenses + paymentsTotal) +
+            otherPeoplesPaymentsTotal
+        );
   const owesMoney = residentNet > 0;
 
   return (

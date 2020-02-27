@@ -67,10 +67,10 @@
           }
         }
         .add-new-modal {
-          top: 0;
+          top: 10px;
           position: absolute;
           // To accomodate for the scale increase on hover of the btn
-          right: -120px;
+          right: -137px;
           z-index: 2;
         }
       }
@@ -100,7 +100,8 @@
     .user-wrapper {
       box-shadow: $app-box-shadow;
       transition: $app-transition-all;
-      &:hover {
+      &:hover,
+      &:focus {
         box-shadow: $app-hover-box-shadow;
       }
       &:not(:first-child) {
