@@ -1,2 +1,20 @@
+@import "../../variables.scss";
 .checkbox-wrapper {
+  outline: none;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  border: solid 1px $app-border-color;
+  border-radius: 4px;
+  &.checked {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 80%;
+    background-image: url("../../assets/checkmark.svg");
+  }
+  &:focus,
+  &:hover {
+    transform: scale(1.1);
+    border: solid 1px black;
+  }
 }

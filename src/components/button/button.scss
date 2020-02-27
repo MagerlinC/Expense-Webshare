@@ -10,7 +10,8 @@
     background: $app-gradient;
     border: none;
     outline: none;
-    &:hover {
+    &:hover,
+    &:focus {
       transform: scale(1.05);
       transition: $app-transition-all;
       box-shadow: $app-hover-box-shadow;

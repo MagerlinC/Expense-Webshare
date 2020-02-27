@@ -1,6 +1,23 @@
 @import "../../variables.scss";
 
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    top: -30px;
+  }
+
+  to {
+    opacity: 1;
+    top: 0;
+  }
+}
+
 .add-new-modal {
+  -webkit-animation-name: slideDown;
+  animation-name: slideDown;
+  animation-duration: 0.5s;
+  transition: $app-transition-all;
+  width: 250px;
   color: #535353;
   padding: 18px;
   background: white;
@@ -16,12 +33,24 @@
     .note-input-wrapper {
       margin-bottom: 18px;
     }
+  }
+  .bottom-section {
     .users-list {
+      margin-bottom: 8px;
       display: flex;
       flex-direction: column;
       .user-line-item {
+        margin: 4px 0;
+        cursor: pointer;
         display: flex;
         flex-direction: row;
+        .user-name {
+          text-align: left;
+          flex-grow: 1;
+        }
+        .checkbox-wrapper {
+          flex-grow: 0;
+        }
       }
     }
   }

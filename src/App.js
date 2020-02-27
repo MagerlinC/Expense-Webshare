@@ -92,6 +92,8 @@ const App = () => {
   const openModal = () => {
     if (!showModal) {
       setShowModal(true);
+    } else {
+      closeModal();
     }
   };
   function closeModal() {
@@ -120,9 +122,10 @@ const App = () => {
             </span>
             <div className={"new-button-and-modal"}>
               <button
+                id="modal-btn"
                 title={"Add Expense"}
                 onTouchStart={openModal}
-                onMouseEnter={openModal}
+                onClick={openModal}
                 className={"new-button"}
               >
                 +
@@ -131,6 +134,7 @@ const App = () => {
                 <div className={"modal-spacer-wrapper"}>
                   <div className={"spacer"} />
                   <AddNewModal
+                    blurIgnoreId={"modal-btn"}
                     users={residents}
                     showToaster={showToaster}
                     closeModal={closeModal}
